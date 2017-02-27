@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
   if (spotifyApi.getAccessToken()) {
     return res.send('You are logged in.');
   }
-  return res.send('<a href="/authorise">Authorise</a>');
+  return res.send('<a href="/authorize">Authorize</a>');
 });
 
 app.get('/authorise', function(req, res) {
@@ -57,15 +57,19 @@ app.post('/store', function(req, res) {
       if (data.body['refresh_token']) { 
         spotifyApi.setRefreshToken(data.body['refresh_token']);
       }
+      
       if (req.body.text.trim().length === 0) {
-          return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
+        res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
+        return res.send('https://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_USERNAME);
       }
+      
       if (req.body.text.indexOf(' - ') === -1) {
         var query = 'track:' + req.body.text;
       } else { 
         var pieces = req.body.text.split(' - ');
         var query = 'artist:' + pieces[0].trim() + ' track:' + pieces[1].trim();
       }
+      
       spotifyApi.searchTracks(query)
         .then(function(data) {
           var results = data.body.tracks.items;
@@ -75,7 +79,8 @@ app.post('/store', function(req, res) {
           var track = results[0];
           spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id])
             .then(function(data) {
-              return res.send('Track added: *' + track.name + '* by *' + track.artists[0].name + '*');
+              res.send('Track added: *' + track.name + '* by *' + track.artists[0].name + '*');
+              return res.send('https://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_USERNAME);
             }, function(err) {
               return res.send(err.message);
             });

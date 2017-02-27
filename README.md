@@ -7,6 +7,8 @@ Simply create a Slash Command, such as `/jukebox`, which accepts a track name (a
 
     /jukebox Bell Biv DeVoe – Poison
 
+https://open.spotify.com/user/1120311606/playlist/5r5xZnISS3phqNznKH7jPY
+
 ##Installation
 
 First you'll want to create your Slack Slash Command, which you can do by going to your [Slash Commands page](https://my.slack.com/services/new/slash-commands).
