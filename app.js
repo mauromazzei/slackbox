@@ -25,7 +25,7 @@ app.get('/', function(req, res) {
   return res.send('<a href="/authorize">Authorize</a>');
 });
 
-app.get('/authorise', function(req, res) {
+app.get('/authorize', function(req, res) {
   var scopes = ['playlist-modify-public', 'playlist-modify-private'];
   var state  = new Date().getTime();
   var authoriseURL = spotifyApi.createAuthorizeURL(scopes, state);
