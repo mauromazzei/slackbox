@@ -63,7 +63,7 @@ app.post('/store', function(req, res) {
       }
       
       if (req.body.text.trim().length === 0) {
-        return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65\nhttps://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_PLAYLIST_ID');
+        return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65\nhttps://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_PLAYLIST_ID);
       }
       
       if (req.body.text.indexOf(' - ') === -1) {
@@ -82,8 +82,7 @@ app.post('/store', function(req, res) {
           var track = results[0];
           spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id])
             .then(function(data) {
-              return res.send('Track added: *' + track.name + '* by *' + track.artists[0].name + '*\nhttps://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_PLAYLIST_ID
-              ');
+              return res.send('Track added: *' + track.name + '* by *' + track.artists[0].name + '*\nhttps://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_PLAYLIST_ID);
             }, function(err) {
               return res.send(err.message);
             });
