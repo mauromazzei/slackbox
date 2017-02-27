@@ -57,10 +57,13 @@ app.post('/store', function(req, res) {
       if (data.body['refresh_token']) { 
         spotifyApi.setRefreshToken(data.body['refresh_token']);
       }
+  
+      if (req.body.text === 'list') {
+        return res.send('https://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_PLAYLIST_ID);
+      }
       
       if (req.body.text.trim().length === 0) {
-        res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
-        return res.send('https://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_USERNAME);
+        return res.send('Enter the name of a song and the name of the artist, separated by a "-"\nExample: Blue (Da Ba Dee) - Eiffel 65');
       }
       
       if (req.body.text.indexOf(' - ') === -1) {
@@ -80,7 +83,6 @@ app.post('/store', function(req, res) {
           spotifyApi.addTracksToPlaylist(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PLAYLIST_ID, ['spotify:track:' + track.id])
             .then(function(data) {
               res.send('Track added: *' + track.name + '* by *' + track.artists[0].name + '*');
-              return res.send('https://open.spotify.com/user/' + process.env.SPOTIFY_USERNAME + '/playlist/' + process.env.SPOTIFY_USERNAME);
             }, function(err) {
               return res.send(err.message);
             });
